@@ -1,0 +1,7 @@
+koira dog
+lehmä cow
+kissa cat
+kaupunki town
+auto car
+hirviö monster
+miekka sword
