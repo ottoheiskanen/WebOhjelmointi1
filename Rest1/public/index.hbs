@@ -15,7 +15,7 @@
             margin: auto;
         }
         .word-search-container {
-            background-color: gray;
+            background-color: lightgray;
             padding: 1.5rem;
             width: 400px;
             margin:auto;
@@ -34,7 +34,7 @@
     <!--- Search word --->
     <div class="word-search-container">
         <label for="word-search">Etsi sanaa:</label><br>
-        <input type="text" id="word-search">
+        <input type="text" id="word-search" maxlength="39" size="39">
         <button onclick="getWord()">Etsi sanakirjasta</button>
         <p id="show-word">---</p>
     </div>
@@ -45,14 +45,17 @@
             Syötteen tulee olla vähintään 4 merkkiä pitkä ja sisältää välilyönti
         </p>
         <label for="word-add">Lisää sana:</label><br>
-        <input type="text" id="word-add">
+        <input type="text" id="word-add" maxlength="39" size="39">
         <button onclick="addWord()">Lisää sanakirjaan</button>
+        <p id="show-response">---</p>
     </div>
     <script>
         const showWordField = document.getElementById('show-word')
         const findWordField = document.getElementById('word-search')
-        const addWordField = document.getElementById('word-add')
 
+        const addWordField = document.getElementById('word-add')
+        const showResponseField = document.getElementById('show-response')
+        
         async function addWord() {
             const response = await fetch('/uusisana/', {
                 method: 'POST',
@@ -64,6 +67,14 @@
             })
 
             const data = await response.text()
+            
+            if (response.status === 201) {
+                showResponseField.style.color = "green"
+                showResponseField.innerText = "Sana lisätty onnistuneesti"
+            } else if (response.status === 400) {
+                showResponseField.style.color = "red"
+                showResponseField.innerText = "Sanaa lisättäessä tapahtui virhe! Tarkista syöte."
+            }
             return data
         }
 
@@ -77,14 +88,13 @@
             const data = await response.text()
                 
             if (response.status === 200) {
+                showWordField.style.color = "green"
                 showWordField.innerText = data.trim()
             } else if (response.status === 404) {
+                showWordField.style.color = "red"
                 showWordField.innerText = "Sanaa ei löytynyt sanakirjasta"
             } 
-
-            //dictField.innerText = data
         }
-
     </script>
 </body>
 </html>

@@ -5,3 +5,12 @@ kaupunki town
 auto car
 hirviö monster
 miekka sword
+hymy   smile
+ase gun
+makkara sausage
+puu tree
+lisko lizard
+kukka flower
+rengas wheel
+ikkuna window
+lammas sheep

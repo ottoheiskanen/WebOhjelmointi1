@@ -4,28 +4,21 @@ const fs = require('fs')
 const { send } = require('process')
 const readline = require('readline')
 
-router.get('/haesanakirja/', async (req, res) => {
-    try {
-        res.setHeader("Content-Type", "text/plain;charset=UTF-8")
-        let dictionary = fs.readFileSync('./sanakirja.txt', {encoding: 'utf8', flag:'r'})
-        console.log(dictionary)
-        res.status(200).send(dictionary)
-    } catch (error) {
-        res.status(404).send(error)
-    }
-})
-
 router.get('/haesana/:sana', async (req, res) => {
     try {
         let found = false
         let result = ""
-        res.setHeader("Content-Type", "text/plain;charset=UTF-8")
+        res.setHeader(
+            "Access-Control-Allow-Methods",
+            "GET",
+            "Content-Type", "text/plain;charset=UTF-8",
+            "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+          );
         fs.readFile('sanakirja.txt', function(err, data) {
             if(err) throw err;
-            var array = data.toString().split("\n");
+            let array = data.toString().split("\n");
             for(i in array) {
-                if (array[i].includes(req.params.sana + " ")) {
-                    console.log(array[i])
+                if ((array[i].includes(req.params.sana + " ")) && req.params.sana.length < 40) {
                     let index = array[i].indexOf(" ") + 1
                     result = array[i].slice(index, array[i].length)
                     result.trim()
@@ -38,8 +31,6 @@ router.get('/haesana/:sana', async (req, res) => {
                 res.status(404).send()
             }
         });
-        
-        //res.status(200).send(req.params.sana)
     } catch (error) {
         res.status(404).send(error)
     }
@@ -55,9 +46,14 @@ const addToFile = (word) => {
 
 router.post('/uusisana', async (req, res) => {
     try {
-        res.setHeader("Content-Type", "text/plain;charset=UTF-8")
+        res.setHeader(
+            "Access-Control-Allow-Methods",
+            "POST",
+            "Content-Type", "text/plain;charset=UTF-8",
+            "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+          );
         const newWord = req.body.trim()
-        if (newWord.length > 2 && newWord.includes(" ")) {
+        if (newWord.length > 2 && newWord.includes(" ") && newWord.length < 40 ) {
             addToFile(newWord)
             res.status(201).send(newWord) 
         } else {

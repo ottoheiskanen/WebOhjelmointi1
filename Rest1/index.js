@@ -7,7 +7,6 @@ const hbs = require('hbs')
 
 const router = require('./router.js')
 app.use(express.text())
-// app.use(express.json())
 app.use(router)
 
 const publicDirPath = path.join(__dirname, './public')
@@ -18,8 +17,7 @@ app.use(express.static(publicDirPath))
 
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'Sanakirja',
-        content: null
+        title: 'Sanakirja'
     })
 })
 
