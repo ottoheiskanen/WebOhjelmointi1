@@ -1,8 +1,8 @@
 import {Person} from './Person.js'
 
 export class Sportsman extends Person {
-    constructor(imgUrl, weight, sport, records) {
-        super()
+    constructor(fNames, lName, nickname, birthYear, imgUrl, weight, sport, records) {
+        super(fNames, lName, nickname, birthYear)
         this.imgUrl = imgUrl
         this.weight = weight
         this.sport = sport
